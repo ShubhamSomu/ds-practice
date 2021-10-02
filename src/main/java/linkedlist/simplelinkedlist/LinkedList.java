@@ -11,6 +11,11 @@ public class LinkedList {
             this.data = data;
             next = null;
         }
+
+        @Override
+        public String toString() {
+            return String.valueOf(this.data);
+        }
     }
 
     public static void print() {
@@ -128,6 +133,18 @@ public class LinkedList {
         return counter;
     }
 
+    public void printMiddleSlowFast() {
+        Node tortoise = head;
+        Node hare = head;
+
+        while (hare != null && hare.next != null) {
+            tortoise = tortoise.next;
+            hare = hare.next.next;
+        }
+
+        System.out.println("\n \t Middle Element is: " + tortoise);
+    }
+
     public int findElement(int data) {
         Node currentNode = head;
         int index = 0;
@@ -148,29 +165,43 @@ public class LinkedList {
         return index;
     }
 
-    public int findNthElement (int index) {
+    public int findNthElement(int index) {
         Node currentNode = head;
         int count = 1;
 
-        while(currentNode != null) {
-            if(count == index) {
+        while (currentNode != null) {
+            if (count == index) {
                 return currentNode.data;
             }
-            count ++;
+            count++;
             currentNode = currentNode.next;
         }
         return -1;
     }
 
-    public int findNthElementFromEnd (LinkedList linkedList, int index) {
+    public int frequencyOfTerm(int searchTerm) {
+        Node currentNode = head;
+        int counter = 0;
+
+        while (currentNode != null) {
+            if (currentNode.data == searchTerm) {
+                counter++;
+            }
+            currentNode = currentNode.next;
+        }
+        return counter;
+    }
+
+    public int findNthElementFromEnd(LinkedList linkedList, int index) {
         int length = linkedList.length();
         Node currentNode = head;
-        for (int i = 1; i< length-index+1 ; i++) {
+        for (int i = 1; i < length - index + 1; i++) {
             currentNode = currentNode.next;
         }
 
         return currentNode.data;
     }
+
     public static void main(String[] args) {
         LinkedList linkedList = new LinkedList();
         linkedList.append(1);
@@ -183,6 +214,7 @@ public class LinkedList {
         linkedList.append(3);
 
         linkedList.insertAfter(2, 5);
+        linkedList.insertAfter(4, 36);
         System.out.println("\n -> before delete <-");
         print();
         linkedList.deleteNodeAtIndex(1);
@@ -202,11 +234,19 @@ public class LinkedList {
 
         System.out.println("\n Find Nth Element");
         int nthElement = 2;
-        System.out.println("Data of index " +nthElement+ " is " + linkedList.findNthElement(3));
+        System.out.println("Data of index " + nthElement + " is " + linkedList.findNthElement(3));
 
         System.out.println("\n Nth Element from end");
         int nthFromEnd = 3;
-        System.out.println(nthFromEnd +" element from end is: "+ linkedList.findNthElementFromEnd(linkedList, nthFromEnd));
+        System.out.println(nthFromEnd + " element from end is: " + linkedList.findNthElementFromEnd(linkedList, nthFromEnd));
+
+        linkedList.printMiddleSlowFast();
+
+        int frequencySearchTerm = 4;
+        System.out.println(String.format("Item %d occured %d times",
+                                         frequencySearchTerm,
+                                         linkedList.frequencyOfTerm(frequencySearchTerm)));
+
 /*
         *** *** Lay man way *** ***
         linkedList.head = new Node(1);
